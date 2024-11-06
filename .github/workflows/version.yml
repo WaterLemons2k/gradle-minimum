@@ -1,0 +1,30 @@
+name: Minimum version of Gradle
+
+on:
+  push:
+  schedule:
+    - cron: 0 0 * * 0
+
+jobs:
+  keep-schedule:
+    uses: WaterLemons2k/scheduled-workflow-activity-action/.github/workflows/reusable.yml@v1
+
+  version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    strategy:
+      matrix:
+        tool: [java]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get minimum version
+        run: echo "VERSION=$(./scripts/${{ matrix.tool }})" >> $GITHUB_ENV
+      - name: Write
+        run: echo '${{ env.VERSION }}' >'version/${{ matrix.tool }}'
+      - name: Push
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: '${{ matrix.tool }}: bump to ${{ env.VERSION }}'
+          commit_author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>

@@ -1,0 +1,6 @@
+#!/bin/sh
+#shellcheck disable=SC1091
+
+. scripts/env
+
+curl -sS "$GRADLE_MINIMUM_URL" | awk '/JDK</ {getline; gsub(/[^0-9]/, ""); print}'
