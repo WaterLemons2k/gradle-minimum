@@ -17,7 +17,7 @@ jobs:
       matrix:
         tool: [java]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Get minimum version
         run: echo "VERSION=$(./scripts/${{ matrix.tool }})" >> $GITHUB_ENV
