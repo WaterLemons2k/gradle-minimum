@@ -1,6 +1,16 @@
-#!/bin/sh
+#!/bin/bash
 #shellcheck disable=SC1091
+set -euo pipefail
 
 . scripts/env
 
-curl -sS "$GRADLE_MINIMUM_URL" | awk '/JDK</ {getline; gsub(/[^0-9]/, ""); print}'
+BODY=$(curl -fsS "$GRADLE_MINIMUM_URL")
+VERSION=$(awk '/JDK</ {getline; gsub(/[^0-9]/, ""); print}' <<<"$BODY")
+if [[ -z "$VERSION" ]]; then
+	{
+		echo "::warning:: Failed to extract Java version."
+		echo "Body: $BODY"
+	} >&2
+	exit
+fi
+echo "$VERSION"
