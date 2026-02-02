@@ -5,7 +5,7 @@ set -euo pipefail
 . scripts/env
 
 BODY=$(curl -fsSL "$GRADLE_MINIMUM_URL")
-VERSION=$(awk '/JDK</ {getline; gsub(/[^0-9]/, ""); print}' <<<"$BODY")  
+VERSION=$(awk '/JDK</ {getline; gsub(/[^0-9]/, ""); print}' <<<"$BODY")
 if [[ -z "$VERSION" ]]; then
 	{
 		echo "::error:: Failed to extract Java version."
