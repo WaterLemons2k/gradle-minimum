@@ -10,7 +10,7 @@ jobs:
     uses: WaterLemons2k/scheduled-workflow-activity-action/.github/workflows/reusable.yml@v2
 
   version:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     permissions:
       contents: write
     strategy:
